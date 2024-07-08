@@ -57,7 +57,13 @@ namespace Academy
 			}
 			public override string ToString()
 			{
-				string result = $"{GetType()}: ".PadRight(18) + $"{LastName.PadRight(LAST_NAME_WIDTH)} {FirstName.PadRight(FIRST_NAME_WIDTH)} {Age.ToString().PadRight(AGE_WIDTH)}";
+				string result = $"{GetType().ToString().Split('.').Last()}: ".PadRight(12) + $"{LastName.PadRight(LAST_NAME_WIDTH)} {FirstName.PadRight(FIRST_NAME_WIDTH)} {Age.ToString().PadRight(AGE_WIDTH)}";
+				//return base.ToString() + $" {LastName} {FirstName} {Age} y/o";
+				return result;
+			}
+			public virtual string ToStringFile()
+			{
+				string result = $"{GetType().ToString().Split('.').Last()}:"+$"{LastName},{FirstName},{Age.ToString()};";
 				//return base.ToString() + $" {LastName} {FirstName} {Age} y/o";
 				return result;
 			}
@@ -91,6 +97,7 @@ Human human = new Human("Vercetti", "Tommy", 30);
 			//Generalization
 			Human[] group = new Human[]
 			{
+				new Human("Musk", "Elon", 50),
 				new Student("Pinkman", "Jessie", 22, "Chemistry", "WW_220", 95, 97),
 				new Teacher("White", "Walter", 50, "Chemistry", 25),
 				new Graduate("Schrader", "Hank", 40, "Criminalistic", "OBN", 80, 70, "How to catch Heizenberg"),
@@ -98,11 +105,11 @@ Human human = new Human("Vercetti", "Tommy", 30);
 				new Teacher("Diaz", "Ricardo", 50, "Weapons distribution", 20)
 			};
 			//Specialization
-			//Print(group);
+			Print(group);
 			string cmd = "group.txt";
-			//Save(cmd, group);
-			Print(Load(cmd));
-			//System.Diagnostics.Process.Start("notepad", cmd);
+			Save(cmd, group);
+			//Print(Load(cmd));
+			System.Diagnostics.Process.Start("notepad", cmd);
 			//TODO:
 			//1.Код, выводящий группу на экран вынести в метод ??? Print(???);
 			//2.Код, сохраняющий группу в файл вынести в метод ??? Save(???);
@@ -125,7 +132,7 @@ Human human = new Human("Vercetti", "Tommy", 30);
 			StreamWriter writer = new StreamWriter(fileName); //Создаем и открываем поток
 			for (int i = 0; i < array.Length; i++)
 			{
-				writer.WriteLine(array[i]);
+				writer.WriteLine(array[i].ToStringFile());
 			}
 			writer.Close();
 		}
@@ -143,11 +150,11 @@ Human human = new Human("Vercetti", "Tommy", 30);
 					substring = String.Join(" ", fileContents[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 					string[] subarr = substring.Split(' ');
 
-					if (subarr[0] == "Academy.Student:")
+					if (subarr[0] == "Student:")
 					{
 						group[i] = new Student(subarr[1], subarr[2], Convert.ToInt32(subarr[3]), subarr[4], subarr[5], Convert.ToDouble(subarr[6]), Convert.ToDouble(subarr[7]));
 					}
-					else if (subarr[0] == "Academy.Teacher:")
+					else if (subarr[0] == "Teacher:")
 					{
 						string name = subarr[1];
 						string surname = subarr[2];
@@ -164,7 +171,7 @@ Human human = new Human("Vercetti", "Tommy", 30);
 						int experience = Convert.ToInt32(subarr[index]);
 						group[i] = new Teacher(name, surname, age, speciality, experience);
 					}
-					else if (subarr[0] == "Academy.Graduate:")
+					else if (subarr[0] == "Graduate:")
 					{
 						string name = subarr[1];
 						string surname = subarr[2];

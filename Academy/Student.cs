@@ -72,5 +72,9 @@ namespace Academy
 		{
 			return base.ToString() + $" {Speciality.PadRight(SPECIALITY_WIDTH)} {Group.PadRight(GROUP_WIDTH)} {Rating.ToString().PadRight(RATING_WIDTH)} {Attendance.ToString().PadRight(ATTENDANCE_WIDTH)}";
 		}
+		public override string ToStringFile()
+		{
+			return base.ToStringFile().Replace(';', ',')+$"{speciality},{group},{rating},{attendance};";
+		}
 	}
 }
