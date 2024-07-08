@@ -49,5 +49,11 @@ namespace Academy
 		{
 			return base.ToStringFile().Replace(';', ',') + $"{speciality},{experience};";
 		}
+		public override void Init(string[] values)
+		{
+			base.Init(values);
+			Speciality = values[4];
+			Experience = Convert.ToInt32(values[5]);
+		}
 	}
 }

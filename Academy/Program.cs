@@ -1,5 +1,7 @@
 ﻿//#define INHERITANCE_1
 //#define INHERITANCE_2
+//#define SAVE_TO_FILE
+#define LOAD_FROM_FILE
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,10 @@ namespace Academy
 {
 	internal class Program
 	{
+		static Program()
+		{
+			Directory.SetCurrentDirectory("..\\..");
+		}
 		static readonly string delimeter = "\n----------------------------------------\n";
 		internal class Human
 		{
@@ -63,9 +69,15 @@ namespace Academy
 			}
 			public virtual string ToStringFile()
 			{
-				string result = $"{GetType().ToString().Split('.').Last()}:"+$"{LastName},{FirstName},{Age.ToString()};";
+				string result = $"{GetType().ToString().Split('.').Last()}:" + $"{LastName},{FirstName},{Age.ToString()};";
 				//return base.ToString() + $" {LastName} {FirstName} {Age} y/o";
 				return result;
+			}
+			public virtual void Init(string[] values)
+			{
+				lastName = values[1];
+				FirstName = values[2];
+				Age = Convert.ToInt32(values[3]);
 			}
 		}
 		static void Main(string[] args)
@@ -94,6 +106,7 @@ Human human = new Human("Vercetti", "Tommy", 30);
             Console.WriteLine(teacher);
 			Console.WriteLine(delimeter);
 #endif
+#if SAVE_TO_FILE
 			//Generalization
 			Human[] group = new Human[]
 			{
@@ -106,10 +119,16 @@ Human human = new Human("Vercetti", "Tommy", 30);
 			};
 			//Specialization
 			Print(group);
-			string cmd = "group.txt";
+			string cmd = "group.csv";
 			Save(cmd, group);
 			//Print(Load(cmd));
 			System.Diagnostics.Process.Start("notepad", cmd);
+			//CSV - Comma Separated Values  
+#endif
+#if LOAD_FROM_FILE
+			Human[] group1 = Load("group.csv");
+			Print(group1); 
+#endif
 			//TODO:
 			//1.Код, выводящий группу на экран вынести в метод ??? Print(???);
 			//2.Код, сохраняющий группу в файл вынести в метод ??? Save(???);
@@ -125,10 +144,7 @@ Human human = new Human("Vercetti", "Tommy", 30);
 		}
 		static void Save(string fileName, Human[] array)
 		{
-			if (!fileName.EndsWith(".txt"))
-			{
-				fileName += ".txt";
-			}
+			//Directory.SetCurrentDirectory("..\\..");
 			StreamWriter writer = new StreamWriter(fileName); //Создаем и открываем поток
 			for (int i = 0; i < array.Length; i++)
 			{
@@ -138,72 +154,106 @@ Human human = new Human("Vercetti", "Tommy", 30);
 		}
 		static Human[] Load(string fileName)
 		{
-            Console.WriteLine("-----LOAD-----");
-            if (File.Exists(fileName))
+			//         Console.WriteLine("-----LOAD-----");
+			//         if (File.Exists(fileName))
+			//{
+			//	StreamReader reader = new StreamReader(fileName);
+			//	string[] fileContents = File.ReadAllLines(fileName);
+			//	Human[] group = new Human[fileContents.Length];
+			//	string substring;
+			//	for (int i = 0; i < fileContents.Length; i++)
+			//	{
+			//		substring = String.Join(" ", fileContents[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+			//		string[] subarr = substring.Split(' ');
+
+			//		if (subarr[0] == "Student:")
+			//		{
+			//			group[i] = new Student(subarr[1], subarr[2], Convert.ToInt32(subarr[3]), subarr[4], subarr[5], Convert.ToDouble(subarr[6]), Convert.ToDouble(subarr[7]));
+			//		}
+			//		else if (subarr[0] == "Teacher:")
+			//		{
+			//			string name = subarr[1];
+			//			string surname = subarr[2];
+			//			int age = Convert.ToInt32(subarr[3]);
+
+			//			int index = 4;
+			//			string speciality = "";
+			//			while (!int.TryParse(subarr[index], out _))//out _ потому что мы не сохраняем результат парсинга.
+			//			{
+			//				speciality += subarr[index] + " ";
+			//				index++;
+			//			}
+			//			speciality = speciality.Trim();
+			//			int experience = Convert.ToInt32(subarr[index]);
+			//			group[i] = new Teacher(name, surname, age, speciality, experience);
+			//		}
+			//		else if (subarr[0] == "Graduate:")
+			//		{
+			//			string name = subarr[1];
+			//			string surname = subarr[2];
+			//			int age = Convert.ToInt32(subarr[3]);
+			//			string speciality = subarr[4];
+			//			string studyGroup = subarr[5];
+			//			double rating = Convert.ToDouble(subarr[6]);
+			//			double attendance = Convert.ToDouble(subarr[7]);
+
+			//			int index = 8;
+			//			string subject = "";
+			//			while (index < subarr.Length)
+			//			{
+			//				subject += subarr[index] + " ";
+			//				index++;
+			//			}
+			//			subject = subject.Trim();
+			//			group[i] = new Graduate(name, surname, age, speciality, studyGroup, rating, attendance, subject);
+			//		}
+			//	}
+			//	reader.Close();
+			//	Console.WriteLine("-----LOAD DONE-----");
+			//	return group;
+
+			//}
+			//else 
+			//{
+			//             Console.WriteLine("Такого файла не существует.");
+			//	Console.WriteLine("-----LOAD DONE-----");
+			//	return null;
+			//         }
+			//Directory.SetCurrentDirectory("..\\..");
+			List<Human> group = new List<Human>();
+			if (File.Exists(fileName))
 			{
 				StreamReader reader = new StreamReader(fileName);
-				string[] fileContents = File.ReadAllLines(fileName);
-				Human[] group = new Human[fileContents.Length];
-				string substring;
-				for (int i = 0; i < fileContents.Length; i++)
+				while (!reader.EndOfStream)
 				{
-					substring = String.Join(" ", fileContents[i].Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
-					string[] subarr = substring.Split(' ');
-
-					if (subarr[0] == "Student:")
-					{
-						group[i] = new Student(subarr[1], subarr[2], Convert.ToInt32(subarr[3]), subarr[4], subarr[5], Convert.ToDouble(subarr[6]), Convert.ToDouble(subarr[7]));
-					}
-					else if (subarr[0] == "Teacher:")
-					{
-						string name = subarr[1];
-						string surname = subarr[2];
-						int age = Convert.ToInt32(subarr[3]);
-
-						int index = 4;
-						string speciality = "";
-						while (!int.TryParse(subarr[index], out _))//out _ потому что мы не сохраняем результат парсинга.
-						{
-							speciality += subarr[index] + " ";
-							index++;
-						}
-						speciality = speciality.Trim();
-						int experience = Convert.ToInt32(subarr[index]);
-						group[i] = new Teacher(name, surname, age, speciality, experience);
-					}
-					else if (subarr[0] == "Graduate:")
-					{
-						string name = subarr[1];
-						string surname = subarr[2];
-						int age = Convert.ToInt32(subarr[3]);
-						string speciality = subarr[4];
-						string studyGroup = subarr[5];
-						double rating = Convert.ToDouble(subarr[6]);
-						double attendance = Convert.ToDouble(subarr[7]);
-
-						int index = 8;
-						string subject = "";
-						while (index < subarr.Length)
-						{
-							subject += subarr[index] + " ";
-							index++;
-						}
-						subject = subject.Trim();
-						group[i] = new Graduate(name, surname, age, speciality, studyGroup, rating, attendance, subject);
-					}
+					string buffer = reader.ReadLine();
+					if (buffer.Length == 0) continue;
+					Console.WriteLine(buffer);
+					string[] values = buffer.Split(':', ',', ';');
+					group.Add(HumanFactory(values.First()));
+					group.Last().Init(values);
 				}
 				reader.Close();
-				Console.WriteLine("-----LOAD DONE-----");
-				return group;
-
 			}
-			else 
+			else
 			{
-                Console.WriteLine("Такого файла не существует.");
-				Console.WriteLine("-----LOAD DONE-----");
-				return null;
+                Console.WriteLine("Файла не существует.");
             }
-			
+			return group.ToArray();
+		}
+		static Human HumanFactory(string type)
+		{
+			Human human = null;
+			switch (type)
+			{
+				case "Program+Human": human = new Human("", "", 0); break;
+				case "Teacher": human = new Teacher("", "", 0, "", 0); break;
+				case "Student": human = new Student("", "", 0, "", "", 0, 0); break;
+				case "Graduate": human = new Graduate("", "", 0, "", "", 0, 0, ""); break;
+				default:
+					break;
+			}
+			return human;
 		}
 	}
 }
