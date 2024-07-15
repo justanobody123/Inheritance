@@ -1,5 +1,5 @@
 ﻿//#define ABSTRACT_CHECK
-#define INTERFACE_CHECK
+//#define INTERFACE_CHECK
 using System;
 using System.Collections.Generic;
 using System.Linq;

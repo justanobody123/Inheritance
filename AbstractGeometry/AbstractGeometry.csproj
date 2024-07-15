@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Circle.cs" />
     <Compile Include="EqulateralTriangle.cs" />
+    <Compile Include="IAmTriangle.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IHaveDiagonalcs.cs" />
     <Compile Include="IHaveDiameter.cs" />

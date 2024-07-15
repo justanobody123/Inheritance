@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace AbstractGeometry
 {
-	abstract class Triangle:Shape
+	abstract class Triangle:Shape, IAmTriangle
 	{
 		double triangleBase;
 		public double TriangleBase
@@ -54,6 +54,10 @@ namespace AbstractGeometry
 		{
 			return Height / GetRightSide();
 		}
+		public double GetTopSin()
+		{
+			return Math.Sin(GetTopAngle());
+		}
 		public double GetLeftAngle()
 		{
 			return Math.Asin(GetLeftSin()) * 180 / Math.PI;
@@ -75,6 +79,10 @@ namespace AbstractGeometry
 		{
 			double radians = GetRightAngle() * (Math.PI / 180);
 			return Math.Cos(radians);
+		}
+		public double GetTopCos()
+		{
+			return Math.Cos(GetTopAngle());
 		}
 		public override void Draw(PaintEventArgs e)
 		{
