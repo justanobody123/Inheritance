@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace AbstractGeometry
 {
-	internal class Circle:Shape
+	internal class Circle:Shape, IHaveDiameter
 	{
 		double radius;
 		public double Radius

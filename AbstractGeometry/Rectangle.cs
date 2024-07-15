@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace AbstractGeometry
 {
-	class Rectangle:Shape
+	class Rectangle:Shape, IHaveDiagonal
 	{
 		double width;
 		double height;
@@ -37,6 +37,10 @@ namespace AbstractGeometry
 			Width = width;
 			Height = height;
 		}
+		public double GetDiagonal()
+		{
+			return Math.Sqrt (Width * Width + Height * Height);
+		}
 		public override double GetArea()
 		{
 			return Width * Height;
@@ -54,6 +58,7 @@ namespace AbstractGeometry
 			string result = "";
 			result += $"Width: {Width}\n";
 			result += $"Height: {Height}\n";
+			result += $"Diagonal: {GetDiagonal()}\n";
 			result += base.ToString();
 			return result;
 		}

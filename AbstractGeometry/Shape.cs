@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace AbstractGeometry
 {
-	abstract class Shape
+	abstract class Shape:IDrawable
 	{
 		protected static readonly int MIN_START_X = 10;
 		protected static readonly int MIN_START_Y = 10;

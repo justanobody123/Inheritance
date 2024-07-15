@@ -6,6 +6,7 @@
       <HashCode>AAAIAAAACAAAAgAEAAAAAAAAAAAAAAEAAAAAEBAAAAA=</HashCode>
       <FileName>Circle.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AbstractGeometry.EqulateralTriangle" Collapsed="true">
     <Position X="5" Y="3.25" Width="1.5" />
@@ -31,9 +32,10 @@
   <Class Name="AbstractGeometry.Rectangle" Collapsed="true">
     <Position X="2.75" Y="1.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAABAAAAgQEQAAAAEAAAAAAAAEAAAAAEAAAAAA=</HashCode>
+      <HashCode>AAAAAAAABAAAAgQEQAAAAEAAAAAAAAEAAAAAEAAABAA=</HashCode>
       <FileName>Rectangle.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AbstractGeometry.ScaleneTriangle" Collapsed="true">
     <Position X="9.5" Y="3.25" Width="1.5" />
@@ -48,6 +50,7 @@
       <HashCode>AAAAAAAADCAAggAkAAAAAAAkAABAIAUAAAAAkkAAIAA=</HashCode>
       <FileName>Shape.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="AbstractGeometry.Square" Collapsed="true">
     <Position X="2.75" Y="3.25" Width="1.5" />

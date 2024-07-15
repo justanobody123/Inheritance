@@ -1,4 +1,6 @@
-﻿using System;
+﻿//#define ABSTRACT_CHECK
+#define INTERFACE_CHECK
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +19,8 @@ namespace AbstractGeometry
 			Graphics graphics = Graphics.FromHwnd(hwnd);
 			System.Drawing.Rectangle windowRectangle = new System.Drawing.Rectangle(Console.WindowLeft, Console.WindowTop, Console.WindowWidth, Console.WindowHeight);
 			PaintEventArgs e = new PaintEventArgs(graphics, windowRectangle);
+#if ABSTRACT_CHECK
+			
 			Rectangle rectangle = new Rectangle(100, 50, 450, 100, 10, Color.AliceBlue);
 			rectangle.Draw(e);
 			Square square = new Square(100, 500, 200, 10, Color.Aqua);
@@ -29,6 +33,26 @@ namespace AbstractGeometry
 			eTriangle.Draw(e);
 			ScaleneTriangle sTriangle = new ScaleneTriangle(150, 80, 70, 120, 280, 5, Color.DarkGray);
 			sTriangle.Draw(e);
+#endif
+#if INTERFACE_CHECK
+			Shape[] shapes = new Shape[]
+			{
+				new Square(100, 500, 200, 10, Color.Aqua),
+				new Rectangle(100, 50, 450, 100, 10, Color.AliceBlue),
+				new Circle(50, 550, 320, 5, Color.Red)
+			};
+			//foreach (Shape i in shapes)
+			//{
+			//	i.Info(e);
+			//}
+			foreach(Shape i in shapes)
+			{
+				if (i is IHaveDiagonal)
+				{
+					i.Info(e);
+				}
+			}
+#endif
 
 		}
 		[DllImport("kernel32.dll")]
