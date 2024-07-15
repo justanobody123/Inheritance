@@ -58,9 +58,10 @@ namespace AbstractGeometry
 			Color = color;
 		}
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		public abstract double GetArea();
 		public abstract double GetPerimeter();
-		public abstract void Draw(PaintEventArgs e); //
+		public abstract void Draw(PaintEventArgs e);
 		public virtual void Info(PaintEventArgs e)
 		{
             Console.WriteLine(this);
@@ -69,8 +70,8 @@ namespace AbstractGeometry
 		public override string ToString()
 		{
 			string result = "";
-			result += $"Area:\t\t{GetArea()}";
-			result += $" Perimeter:\t\t{GetPerimeter()}";
+			result += $"Area: {GetArea()}\n";
+			result += $" Perimeter: {GetPerimeter()}\n";
 			return result;
 		}
 	}

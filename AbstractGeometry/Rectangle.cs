@@ -12,7 +12,7 @@ namespace AbstractGeometry
 	class Rectangle:Shape
 	{
 		double width;
-		double heigth;
+		double height;
 		public double Width
 		{
 			get => width;
@@ -22,39 +22,38 @@ namespace AbstractGeometry
 				width = value;
 			}
 		}
-		public double Heigth
+		public double Height
 		{
-			get => heigth;
+			get => height;
 			set
 			{
 				value = value < MIN_SIZE ? MIN_SIZE : value > MAX_SIZE ? MAX_SIZE : value;
-				heigth = value;
+				height = value;
 			}
 		}
 		public Rectangle(double width, double height, int startX, int startY, int lineWidth, Color color)
 			:base(startX, startY, lineWidth, color)
 		{
 			Width = width;
-			Heigth = heigth;
+			Height = height;
 		}
 		public override double GetArea()
 		{
-			return Width * Heigth;
+			return Width * Height;
 		}
 		public override double GetPerimeter()
 		{
-			return (Width + Heigth) * 2;
+			return (Width + Height) * 2;
 		}
 		public override void Draw(PaintEventArgs e)
 		{
-			e.Graphics.DrawRectangle(new Pen(Color, LineWidth), StartX, StartY, (float)Width, (float)Heigth);
+			e.Graphics.DrawRectangle(new Pen(Color, LineWidth), StartX, StartY, (float)Width, (float)Height);
 		}
 		public override string ToString()
 		{
 			string result = "";
-				//= base.ToString();
-			result += $"Width:\t{Width}";
-			result += $"Height:\t{Heigth}";
+			result += $"Width: {Width}\n";
+			result += $"Height: {Height}\n";
 			result += base.ToString();
 			return result;
 		}
