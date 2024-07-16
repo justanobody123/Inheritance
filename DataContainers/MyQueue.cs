@@ -58,5 +58,9 @@ namespace DataContainers
 		{
 			Head = Tail = null;
 		}
+		public bool IsEmpty()
+		{
+			return Head == null;
+		}
 	}
 }

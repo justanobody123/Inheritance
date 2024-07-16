@@ -42,5 +42,9 @@ namespace DataContainers
 		{
 			Top = null;
 		}
+		public bool IsEmpty()
+		{
+			return Top == null;
+		}
 	}
 }
