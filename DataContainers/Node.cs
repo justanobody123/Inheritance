@@ -10,12 +10,17 @@ namespace DataContainers
 	{
 		public X Data { get; set; }
 		public Node<X> Next { get; set; }
-        public Node<X> Previous { get; set; }
-        public Node(X value)
-        {
-            Data = value;
-            Next = null;
-            Previous = null;
-        }
-    }
+		public Node<X> Previous { get; set; }
+		public Node(X value)
+		{
+			Data = value;
+			Next = null;
+			Previous = null;
+			Console.WriteLine($"NodeConstructor:\t{this.GetHashCode()}");
+		}
+		~Node()
+		{
+			Console.WriteLine($"NodeDestructor:\t{this.GetHashCode()}");
+		}
+	}
 }
