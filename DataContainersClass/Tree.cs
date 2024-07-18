@@ -34,7 +34,11 @@ namespace DataContainersClass
 		{
             Console.WriteLine($"TDtor:\t{GetHashCode()}");
         }
-		public void Insert(int Data, Element Root)
+		public void Insert(int Data)
+		{
+			Insert(Data, this.Root);
+		}
+		void Insert(int Data, Element Root)
 		{
 			if (this.Root == null) this.Root = new Element(Data);
 			if (Root == null) return;
@@ -61,7 +65,11 @@ namespace DataContainersClass
 				}
 			}
 		}
-		public void Print(Element Root)
+		public void Print()
+		{
+			Print(this.Root);
+		}
+		void Print(Element Root)
 		{
 			if (Root == null)
 			{
@@ -71,6 +79,71 @@ namespace DataContainersClass
             Console.Write($"{Root.Data}\t");
 			Print(Root.pright);
         }
-		
+		public int MinValue()
+		{
+			return MinValue(this.Root);
+		}
+		int MinValue(Element Root)
+		{
+			if (Root.pleft == null)
+			{
+				return Root.Data;
+			}
+			else
+			{
+				return MinValue(Root.pleft);
+			}
+		}
+		public int MaxValue()
+		{
+			return MaxValue(this.Root);
+		}
+		int MaxValue(Element Root)
+		{
+			if (Root.pright == null)
+			{
+				return Root.Data;
+			}
+			else
+			{
+				return MaxValue(Root.pright);
+			}
+		}
+		public int Count()
+		{
+			int counter = 0;
+			Count(this.Root, ref counter);
+			return counter;
+		}
+		void Count(Element Root, ref int counter)
+		{
+			if (Root == null) 
+			{
+				return;
+			}
+			counter++;
+			Count(Root.pleft, ref counter);
+			Count(Root.pright, ref counter);
+		}
+		public int Sum()
+		{
+			int sum = 0;
+			Sum(this.Root, ref sum);
+			return sum;
+		}
+		void Sum(Element Root, ref int sum)
+		{
+			if (Root == null)
+			{
+				return;
+			}
+			sum += Root.Data;
+			Sum(Root.pleft, ref sum);
+			Sum(Root.pright, ref sum);
+		}
+		public int Avg()
+		{
+			return Sum() / Count();
+		}
 	}
 }

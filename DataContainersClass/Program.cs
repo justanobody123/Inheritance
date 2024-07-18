@@ -16,9 +16,15 @@ namespace DataContainersClass
 			Random rand = new Random();
 			for (int i = 0; i < n; i++) 
 			{
-				tree.Insert(rand.Next(100), tree.Root);
+				tree.Insert(rand.Next(100));
 			}
-			tree.Print(tree.Root);
+			tree.Print();
+            Console.WriteLine();
+            Console.WriteLine($"Min: {tree.MinValue()}");
+            Console.WriteLine($"Max: {tree.MaxValue()}");
+			Console.WriteLine($"Counter: {tree.Count()}");
+			Console.WriteLine($"Sum: {tree.Sum()}");
+			Console.WriteLine($"Avg: {tree.Avg()}");
 		}
 	}
 }
