@@ -1,4 +1,5 @@
-﻿using System;
+﻿#undef DEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,12 +19,16 @@ namespace DataContainersClass
 				this.Data = Data;
 				this.pleft = pleft;
 				this.pright = pright;
-                Console.WriteLine($"ECtor:\t{GetHashCode()}");
-            }
+#if DEBUG
+				Console.WriteLine($"ECtor:\t{GetHashCode()}"); 
+#endif
+			}
 			~Element()
 			{
-                Console.WriteLine($"EDtor:\t{GetHashCode()}");
-            }
+#if DEBUG
+				Console.WriteLine($"EDtor:\t{GetHashCode()}"); 
+#endif
+			}
 		}
 		public Element Root;
 		public Tree()
@@ -68,7 +73,8 @@ namespace DataContainersClass
 		public void Print()
 		{
 			Print(this.Root);
-		}
+            Console.WriteLine();
+        }
 		void Print(Element Root)
 		{
 			if (Root == null)
@@ -81,69 +87,89 @@ namespace DataContainersClass
         }
 		public int MinValue()
 		{
+			if (Root == null)
+			{
+				throw new Exception("Tree is empty");
+			}
 			return MinValue(this.Root);
 		}
 		int MinValue(Element Root)
 		{
-			if (Root.pleft == null)
-			{
-				return Root.Data;
-			}
-			else
-			{
-				return MinValue(Root.pleft);
-			}
+			//if (Root.pleft == null)
+			//{
+			//	return Root.Data;
+			//}
+			//else
+			//{
+			//	return MinValue(Root.pleft);
+			//}
+			return Root.pleft == null ? Root.Data : MinValue(Root.pleft);
 		}
 		public int MaxValue()
 		{
+			if (Root == null)
+			{
+				throw new Exception("Tree is empty");
+			}
 			return MaxValue(this.Root);
 		}
 		int MaxValue(Element Root)
 		{
-			if (Root.pright == null)
-			{
-				return Root.Data;
-			}
-			else
-			{
-				return MaxValue(Root.pright);
-			}
+			//if (Root.pright == null)
+			//{
+			//	return Root.Data;
+			//}
+			//else
+			//{
+			//	return MaxValue(Root.pright);
+			//}
+			return Root.pright == null ? Root.Data : MaxValue(Root.pright);
 		}
 		public int Count()
 		{
-			int counter = 0;
-			Count(this.Root, ref counter);
-			return counter;
+			//int counter = 0;
+			//Count(this.Root, ref counter);
+			//return counter;
+			return Count(this.Root);
 		}
-		void Count(Element Root, ref int counter)
+		//void Count(Element Root, ref int counter)
+		//{
+		//	if (Root == null) 
+		//	{
+		//		return;
+		//	}
+		//	counter++;
+		//	Count(Root.pleft, ref counter);
+		//	Count(Root.pright, ref counter);
+		//}
+		int Count(Element Root)
 		{
-			if (Root == null) 
-			{
-				return;
-			}
-			counter++;
-			Count(Root.pleft, ref counter);
-			Count(Root.pright, ref counter);
+			return Root == null ? 0 : Count(Root.pleft) + Count(Root.pright) + 1;
 		}
 		public int Sum()
 		{
-			int sum = 0;
-			Sum(this.Root, ref sum);
-			return sum;
+			//int sum = 0;
+			//Sum(this.Root, ref sum);
+			//return sum;
+			return Sum(this.Root);
 		}
-		void Sum(Element Root, ref int sum)
+		//void Sum(Element Root, ref int sum)
+		//{
+		//	if (Root == null)
+		//	{
+		//		return;
+		//	}
+		//	sum += Root.Data;
+		//	Sum(Root.pleft, ref sum);
+		//	Sum(Root.pright, ref sum);
+		//}
+		int Sum(Element Root)
 		{
-			if (Root == null)
-			{
-				return;
-			}
-			sum += Root.Data;
-			Sum(Root.pleft, ref sum);
-			Sum(Root.pright, ref sum);
+			return Root == null ? 0 : Sum(Root.pleft) + Sum(Root.pright) + Root.Data;
 		}
-		public int Avg()
+		public double Avg()
 		{
-			return Sum() / Count();
+			return (double)Sum() / Count();
 		}
 	}
 }

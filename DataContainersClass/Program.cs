@@ -12,19 +12,32 @@ namespace DataContainersClass
 		{
             Console.WriteLine("Введите размер дерева: ");
 			int n = Convert.ToInt32(Console.ReadLine());
-            Tree tree = new Tree();
-			Random rand = new Random();
-			for (int i = 0; i < n; i++) 
+			try
 			{
-				tree.Insert(rand.Next(100));
+				Tree tree = new Tree();
+				Random rand = new Random();
+				for (int i = 0; i < n; i++)
+				{
+					tree.Insert(rand.Next(100));
+				}
+				tree.Print();
+				Console.WriteLine($"Min: {tree.MinValue()}");
+				Console.WriteLine($"Max: {tree.MaxValue()}");
+				Console.WriteLine($"Counter: {tree.Count()}");
+				Console.WriteLine($"Sum: {tree.Sum()}");
+				Console.WriteLine($"Avg: {tree.Avg()}");
+				UniqueTree uTree = new UniqueTree();
+				for (int i = 0; i < n; i++)
+				{
+					uTree.Insert(rand.Next(100));
+				}
+				uTree.Print();
 			}
-			tree.Print();
-            Console.WriteLine();
-            Console.WriteLine($"Min: {tree.MinValue()}");
-            Console.WriteLine($"Max: {tree.MaxValue()}");
-			Console.WriteLine($"Counter: {tree.Count()}");
-			Console.WriteLine($"Sum: {tree.Sum()}");
-			Console.WriteLine($"Avg: {tree.Avg()}");
+			catch (Exception ex)
+			{
+
+                Console.WriteLine(ex.Message);
+			}
 		}
 	}
 }
