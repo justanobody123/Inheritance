@@ -6,6 +6,7 @@ using System.Linq;
 using System.Management.Instrumentation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace DataContainersClass
 {
@@ -74,20 +75,40 @@ namespace DataContainersClass
 				Console.WriteLine(ex.Message); ;
 			} 
 #endif
-			Console.WriteLine("Введите размер дерева");
-			int n = Convert.ToInt32(Console.ReadLine());
-			Tree tree = new Tree();
-			for (int i = 0; i < n; i++)
+			try
 			{
-				tree.Insert(rand.Next(100));
+				Console.Write("Введите размер дерева: ");
+				int n = Convert.ToInt32(Console.ReadLine());
+				Tree tree = new Tree();
+				for (int i = 0; i < n; i++)
+				{
+					tree.Insert(rand.Next(100));
+				}
+				#region Stupid performance measuring
+				//tree.Print();
+				//Stopwatch sw = new Stopwatch();
+				//Console.WriteLine($"Минимальное значение в дереве: {tree.MinValue()}");
+				//Console.WriteLine($"Максимальное значение в дереве: {tree.MaxValue()}");
+				//Console.WriteLine($"Количество элементов дерева: {tree.Count()}");
+				//Console.WriteLine($"Сумма элементов дерева: {tree.Sum()}");
+				//Console.WriteLine($"Среднее-арифметическое элементов дерева: {tree.Avg()}");
+				//sw.Start();
+				//Console.WriteLine($"Глубина дерева: {tree.Depth()}");
+				//sw.Stop();
+				//Console.WriteLine($"Вычислено за: {sw.Elapsed}");
+				//Console.WriteLine($"Вычислено за: {sw.Elapsed.TotalMilliseconds}"); 
+				#endregion
+				TreePerformance<int>.Measure("Минимальное значение в дереве", tree.MinValue);
+				TreePerformance<int>.Measure("Максимальное значение в дереве", tree.MaxValue);
+				TreePerformance<int>.Measure("Сумма элементов в дереве", tree.Sum);
+				TreePerformance<int>.Measure("Количество элементов в дереве", tree.Count);
+				TreePerformance<double>.Measure("Среднее-арифметическое элементов в дереве", tree.Avg);
 			}
-			tree.Print();
-			Console.WriteLine($"Минимальное значение в дереве: {tree.MinValue()}");
-			Console.WriteLine($"Максимальное значение в дереве: {tree.MaxValue()}");
-			Console.WriteLine($"Количество элементов дерева: {tree.Count()}");
-			Console.WriteLine($"Сумма элементов дерева: {tree.Sum()}");
-			Console.WriteLine($"Среднее-арифметическое элементов дерева: {tree.Avg()}");
-			Console.WriteLine($"Глубина дерева: {tree.Depth()}");
+			catch (Exception ex)
+			{
+
+                Console.WriteLine(ex.Message);
+            }
 		}
 	}
 }
