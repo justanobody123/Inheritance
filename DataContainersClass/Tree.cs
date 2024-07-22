@@ -1,4 +1,4 @@
-﻿//#undef DEBUG
+﻿#undef DEBUG
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -275,6 +275,58 @@ namespace DataContainersClass
 			newRoot.pleft = Balance(list, startIndex, middle - 1);//Игнорируем середину списка
 			newRoot.pright = Balance(list, middle + 1, endIndex);
 			return newRoot;
+		}
+		public void Erase(int Data)
+		{
+			Erase(this.Root, Data);
+		}
+		Element Erase(Element Root, int Data)
+		{
+			//Если у элемента нет потомков, просто его удаляем.
+			//Если у элемента один левый потомок, удаляем родителя, а потомка ставим на его место.
+			//Аналогично с одним правым потомком.
+			//Если у родителя два потомка, то какие бы деревья я не рисовала и какие бы ветки не отсекала,
+			//Всегда оптимальной заменой был минимальный элемент из поддерева правой ветви родителя.
+			if (Root == null)
+			{
+				return null;
+			}
+			if (Data < Root.Data)
+			{
+				//Идем налево.
+				Root.pleft = Erase(Root.pleft, Data);
+			}
+			else if (Data > Root.Data)
+			{
+				//Идем направо.
+				Root.pright = Erase(Root.pright, Data);
+			}
+			else
+			{
+				//нашли
+				if (Root.pleft == null && Root.pright == null)
+				{
+					//Если потомков нет
+					//Не пойдет. Мы не сможем вернуться обратно.
+					//Менять не сам рут, а ссылку на потомка?
+					//Тогда нужно возвращать узел
+					return null;
+				}
+				else if (Root.pleft == null && Root.pright != null)
+				{ 
+					return Root.pright;
+				}
+				else if (Root.pright  == null && Root.pleft != null)
+				{
+					return Root.pleft;
+				}
+				else 
+				{
+					Root.Data = MinValue(Root.pright);
+					Root.pright = Erase(Root.pright, Root.Data);
+				}
+			}
+			return Root;
 		}
 	}
 }

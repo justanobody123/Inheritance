@@ -31,13 +31,15 @@ namespace DataContainersClass
 				Console.WriteLine($"Сумма элементов дерева: {tree.Sum()}");
 				Console.WriteLine($"Среднее-арифметическое элементов дерева: {tree.Avg()}");
 				//tree.Clear();
-                Console.WriteLine("fdsfsd");
                 tree.PrintTree();
+				tree.Erase(1);
+                Console.WriteLine("Удаляем единицу");
+				tree.PrintTree();
                 Console.WriteLine(tree.Depth());
                 tree.Balance();
 				tree.PrintTree();
 				Console.WriteLine(tree.Depth());
-				Console.WriteLine("ewtehf");
+				
 				//List<int> list = tree.TreeToList();
 				//for (int i = 0;i < list.Count;i++) 
 				//{
