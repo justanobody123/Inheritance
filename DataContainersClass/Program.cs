@@ -10,11 +10,12 @@ namespace DataContainersClass
 {
 	internal class Program
 	{
+		static readonly string delimiter = "\n------------------------------------------------------\n";
 		static void Main(string[] args)
 		{
 			Random rand = new Random();
 #if TREE_BASE_CHECK
-			Console.WriteLine("Введите размер дерева: ");
+			Console.Write("Введите размер дерева: ");
 			int n = Convert.ToInt32(Console.ReadLine());
 			try
 			{
@@ -24,21 +25,39 @@ namespace DataContainersClass
 					tree.Insert(rand.Next(100));
 				}
 				tree.Print();
-				Console.WriteLine($"Min: {tree.MinValue()}");
-				Console.WriteLine($"Max: {tree.MaxValue()}");
-				Console.WriteLine($"Counter: {tree.Count()}");
-				Console.WriteLine($"Sum: {tree.Sum()}");
-				Console.WriteLine($"Avg: {tree.Avg()}");
-				//UniqueTree uTree = new UniqueTree();
+				Console.WriteLine($"Минимальное значение в дереве: {tree.MinValue()}");
+				Console.WriteLine($"Максимальное значение в дереве: {tree.MaxValue()}");
+				Console.WriteLine($"Количество элементов дерева: {tree.Count()}");
+				Console.WriteLine($"Сумма элементов дерева: {tree.Sum()}");
+				Console.WriteLine($"Среднее-арифметическое элементов дерева: {tree.Avg()}");
+				//tree.Clear();
+                Console.WriteLine("fdsfsd");
+                tree.PrintTree();
+                Console.WriteLine(tree.Depth());
+                tree.Balance();
+				tree.PrintTree();
+				Console.WriteLine(tree.Depth());
+				Console.WriteLine("ewtehf");
+				//List<int> list = tree.TreeToList();
+				//for (int i = 0;i < list.Count;i++) 
+				//{
+				//	Console.WriteLine(list[i] + " ");
+				//}
+				//UniqueTree unique_tree = new UniqueTree();
 				//for (int i = 0; i < n; i++)
 				//{
-				//	uTree.Insert(rand.Next(100));
+				//	unique_tree.Insert(rand.Next(100));
 				//}
-				//uTree.Print();
+				//unique_tree.Print();
+				//Console.WriteLine($"Минимальное значение в дереве: {unique_tree.MinValue()}");
+				//Console.WriteLine($"Максимальное значение в дереве: {unique_tree.MaxValue()}");
+				//Console.WriteLine($"Количество элементов дерева: {unique_tree.Count()}");
+				//Console.WriteLine($"Сумма элементов дерева: {unique_tree.Sum()}");
+				//Console.WriteLine($"Среднее-арифметическое элементов дерева: {unique_tree.Avg()}");
+
 			}
 			catch (Exception ex)
 			{
-
 				Console.WriteLine(ex.Message);
 			}
 #endif

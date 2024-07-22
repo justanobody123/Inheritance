@@ -1,44 +1,72 @@
-﻿#undef DEBUG
+﻿//#undef DEBUG
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DataContainersClass
 {
-	internal class Tree
+	internal class Tree : IDisposable
 	{
 		public class Element
 		{
 			public int Data;
+			public int hash;
 			public Element pleft;
 			public Element pright;
 			public Element(int Data, Element pleft = null, Element pright = null)
 			{
+				this.hash = GetHashCode();
 				this.Data = Data;
 				this.pleft = pleft;
 				this.pright = pright;
 #if DEBUG
-				Console.WriteLine($"ECtor:\t{GetHashCode()}"); 
+				Console.WriteLine($"ECtor:\t{GetHashCode()}");
 #endif
 			}
 			~Element()
 			{
 #if DEBUG
-				Console.WriteLine($"EDtor:\t{GetHashCode()}"); 
+				Console.WriteLine($"EDtor:\t{GetHashCode()}");
 #endif
 			}
 		}
 		public Element Root;
 		public Tree()
 		{
-            Console.WriteLine($"TCtor:\t{GetHashCode()}");
-        }
+			Console.WriteLine($"TCtor:\t{GetHashCode()}");
+		}
 		~Tree()
 		{
-            Console.WriteLine($"TDtor:\t{GetHashCode()}");
-        }
+			Dispose();
+			//Clear();
+			//Root = null;
+			//System.GC.Collect();
+			//System.GC.WaitForPendingFinalizers();
+			Console.WriteLine($"TDtor:\t{GetHashCode()}");
+		}
+		public void Clear()
+		{
+			Clear(ref Root);
+		}
+		void Clear(ref Element Root)
+		{
+			if (Root == null) return;
+			Clear(ref Root.pleft);
+			Clear(ref Root.pright);
+			//System.GC.SuppressFinalize(Root);
+			Root = null;
+			System.GC.Collect();
+			System.GC.WaitForPendingFinalizers();
+		}
+		public void Dispose()
+		{
+			System.GC.SuppressFinalize(this);
+		}
 		public void Insert(int Data)
 		{
 			Insert(Data, this.Root);
@@ -49,7 +77,7 @@ namespace DataContainersClass
 			if (Root == null) return;
 			if (Data < Root.Data)
 			{
-				if(Root.pleft == null)
+				if (Root.pleft == null)
 				{
 					Root.pleft = new Element(Data);
 				}
@@ -58,7 +86,7 @@ namespace DataContainersClass
 					Insert(Data, Root.pleft);
 				}
 			}
-			else
+			else if (Data > Root.Data)
 			{
 				if (Root.pright == null)
 				{
@@ -73,8 +101,8 @@ namespace DataContainersClass
 		public void Print()
 		{
 			Print(this.Root);
-            Console.WriteLine();
-        }
+			Console.WriteLine();
+		}
 		void Print(Element Root)
 		{
 			if (Root == null)
@@ -82,9 +110,40 @@ namespace DataContainersClass
 				return;
 			}
 			Print(Root.pleft);
-            Console.Write($"{Root.Data}\t");
+			Console.Write($"{Root.Data}\t");
 			Print(Root.pright);
-        }
+		}
+		public void PrintTree()
+		{
+			PrintTree(Root, "", true);
+		}
+
+		private void PrintTree(Element Root, string padding, bool right)
+		{
+			if (Root != null)
+			{
+				Console.Write(padding);
+				if (Root == this.Root)
+				{
+					Console.Write("Root->");
+					padding += "      ";
+				}
+				else if (right)
+				{
+					Console.Write("R->");
+					padding += "   ";
+				}
+				else
+				{
+					Console.Write("L->");
+					padding += "|  ";
+				}
+				Console.WriteLine(Root.Data);
+				PrintTree(Root.pleft, padding, false);
+				PrintTree(Root.pright, padding, true);
+			}
+		}
+
 		public int MinValue()
 		{
 			if (Root == null)
@@ -170,6 +229,52 @@ namespace DataContainersClass
 		public double Avg()
 		{
 			return (double)Sum() / Count();
+		}
+		public int Depth()
+		{
+			return Depth(this.Root);
+		}
+		private int Depth(Element Root)
+		{
+			if (Root == null)
+			{
+				return 0;
+			}
+			int leftDepth = Depth(Root.pleft);
+			int rightDepth = Depth(Root.pright);
+			return Math.Max(leftDepth, rightDepth) + 1;
+		}
+		public List<int> TreeToList()
+		{
+			List<int> list = new List<int>();
+			FillList(ref list, this.Root);
+			return list;
+		}
+		void FillList(ref List<int> list, Element Root)
+		{
+			if (Root == null)
+			{
+				return;
+			}
+			FillList(ref list, Root.pleft);
+			list.Add(Root.Data);
+			FillList(ref list, Root.pright);
+
+		}
+		public void Balance()
+		{
+			List<int> tree = this.TreeToList();
+			Clear();
+			this.Root = Balance(tree, 0 , tree.Count() - 1);
+		}
+		Element Balance(List<int> list, int startIndex, int endIndex)
+		{
+			if (startIndex > endIndex) return null;
+			int middle = (startIndex + endIndex) / 2;
+			Element newRoot = new Element(list[middle]);
+			newRoot.pleft = Balance(list, startIndex, middle - 1);//Игнорируем середину списка
+			newRoot.pright = Balance(list, middle + 1, endIndex);
+			return newRoot;
 		}
 	}
 }
