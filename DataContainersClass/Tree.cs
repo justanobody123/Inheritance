@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace DataContainersClass
 {
-	internal class Tree : IDisposable
+	internal class Tree : IDisposable, IEnumerator, IEnumerable
 	{
 		public class Element
 		{
@@ -67,6 +67,23 @@ namespace DataContainersClass
 		{
 			System.GC.SuppressFinalize(this);
 		}
+		public void Add(int Data)
+		{
+			Insert(Data, this.Root);
+		}
+		public IEnumerator GetEnumerator()
+		{
+			return this;
+		}
+		public object Current
+		{ get => Root.Data; }
+		public bool MoveNext()
+		{
+			return Root == null;
+		}
+		public void Reset()
+		{
+		}
 		public void Insert(int Data)
 		{
 			Insert(Data, this.Root);
@@ -86,7 +103,7 @@ namespace DataContainersClass
 					Insert(Data, Root.pleft);
 				}
 			}
-			else if (Data > Root.Data)
+			else if (Data >= Root.Data)
 			{
 				if (Root.pright == null)
 				{
