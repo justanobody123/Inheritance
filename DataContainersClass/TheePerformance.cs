@@ -16,7 +16,7 @@ namespace DataContainersClass
 			sw.Start();
 			T value = method();
 			sw.Stop();
-            Console.WriteLine($"{message}: {value}, вычислено за {sw.Elapsed.TotalMilliseconds} ms");
-        }
+			Console.WriteLine($"{message}: {value}, вычислено за {sw.Elapsed.TotalMilliseconds} ms");
+		}
 	}
 }
